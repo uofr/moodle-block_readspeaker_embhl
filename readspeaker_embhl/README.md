@@ -27,7 +27,7 @@ Usage & Settings
 ----------------
 
 After installing the plugin, it needs to be configured with customers specific details that you recevied from ReadSpeaker after purchasing a license.
-You can view installation instructions and customer specific details by logging in to the ReadSpeaker portal at [a link](https://app.readspeaker.com/portal) with the credentials you recieved from the ReadSpeaker support team.
+You can view installation instructions and customer specific details by logging in to the ReadSpeaker portal at [https://app.readspeaker.com/portal](https://app.readspeaker.com/portal) with the credentials you recieved from the ReadSpeaker support team.
 If you do not remember your login or did not receive an email from the ReadSpeaker support team with login details, please contact your ReadSpeaker account manager or get in direct contact with the ReadSpeaker support team at: [mailto:support@readspeaker.com](mailto:support@readspeaker.com).
 
 
