@@ -21,21 +21,21 @@ Installation
 Install the plugin to the folder
 /blocks/block_readspeaker_embhl
 
-See [a link](https://docs.moodle.org/en/Installing_plugins) for details on installing Moodle plugins
+See [https://docs.moodle.org/en/Installing_plugins](https://docs.moodle.org/en/Installing_plugins) for details on installing Moodle plugins
 
 Usage & Settings
 ----------------
 
 After installing the plugin, it needs to be configured with customers specific details that you recevied from ReadSpeaker after purchasing a license.
 You can view installation instructions and customer specific details by logging in to the ReadSpeaker portal at [a link](https://app.readspeaker.com/portal) with the credentials you recieved from the ReadSpeaker support team.
-If you do not remember your login or did not receive an email from the ReadSpeaker support team with login details, please contact your ReadSpeaker account manager or get in direct contact with the ReadSpeaker support team at: [a link](mailto:support@readspeaker.com).
+If you do not remember your login or did not receive an email from the ReadSpeaker support team with login details, please contact your ReadSpeaker account manager or get in direct contact with the ReadSpeaker support team at: [mailto:support@readspeaker.com](mailto:support@readspeaker.com).
 
 
 License / Subscription details
 -------
 
 This plugin requires a paid license with ReadSpeaker in order to use the webReader for Moodle and docReader functionality.
-A license for using webReader for Moodle and docReader can be purchased by contacting ReadSpeaker: [a link](https://www.readspeaker.com/contact/).
+A license for using webReader for Moodle and docReader can be purchased by contacting ReadSpeaker: [https://www.readspeaker.com/contact/](https://www.readspeaker.com/contact/).
 
 
 Requirements
