@@ -106,7 +106,7 @@ class block_readspeaker_embhl extends block_base {
         $edit_mode = $this->page->user_is_editing();
 
         // HTML code for inline settings to webReader.
-        $script_code = implode('\n', [
+        $script_code = implode(PHP_EOL, [
             '<script type="text/javascript">',
             '   window.rsConf = {',
             '       general: {',
@@ -137,7 +137,7 @@ class block_readspeaker_embhl extends block_base {
         $this->plugin_custom_params;
 
         // HTML code for Listen button in block.
-        $listen_button_code = implode('\n', [
+        $listen_button_code = implode(PHP_EOL, [
             '<div id="readspeaker_button1" class="rs_skip rsbtn rs_preserve rscompact">',
             '   <a accesskey="L" class="rsbtn_play" title="'.$this->title.'" href='.$href.'>',
             '       <span class="rsbtn_left rsimg rspart">',
