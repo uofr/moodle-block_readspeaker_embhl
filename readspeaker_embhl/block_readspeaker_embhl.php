@@ -115,7 +115,7 @@ class block_readspeaker_embhl extends block_base {
             '       moodle: {',
             '           customerid: "'.$this->plugin_config_customerid.'",',
             '           region: "'.$region.'",',
-            '           showincontent: "'.$show_in_content.'",',
+            '           showInContent: "'.$show_in_content.'",',
             '           em: "'.$edit_mode.'"',
             '       }',
             '   };',
