@@ -28,21 +28,6 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-/**
-* Generate a random string
-*
-* @param int $length      How many characters do we want?
-* @return string
-*/
-function generate_random_string($length = 20) {
-    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $characters_length = strlen($characters);
-    $random_string = '';
-    for ($i = 0; $i < $length; $i++) {
-        $random_string .= $characters[rand(0, $characters_length - 1)];
-    }
-    return $random_string;
-}
 // Require the Moodle configuration.
 require_once('../../../config.php');
 global $CFG;
@@ -188,7 +173,7 @@ if ($current_stage == 'fetch') {
     $sessioncookie = implode(';', $cookies);
 
     // Generate a random token.
-    $token = generate_random_string();
+    $token = random_string(20);
 
     // Save cookie and token in cache.
     $cache = cache::make('block_readspeaker_embhl', 'readspeaker_tokens');

@@ -33,16 +33,8 @@ if ($ADMIN->fulltree) {
         get_string('header_config_description', 'block_readspeaker_embhl')
     ));
 
-    /*$settings->add(new admin_setting_configtext(
-        'readspeaker_embhl/title',
-        get_string('blocktitle', 'block_readspeaker_embhl'),
-        get_string('descblocktitle', 'block_readspeaker_embhl'),
-        get_string('block_title', 'block_readspeaker_embhl'),
-        PARAM_RAW_TRIMMED
-    ));*/
-
     $settings->add(new admin_setting_configtext(
-        'readspeaker_embhl/cid',
+        'block_readspeaker_embhl/cid',
         get_string('customerid', 'block_readspeaker_embhl'),
         get_string('customerid_description', 'block_readspeaker_embhl'),
         0,
@@ -50,7 +42,7 @@ if ($ADMIN->fulltree) {
     ));
 
     $settings->add(new admin_setting_configtext(
-        'readspeaker_embhl/readid',
+        'block_readspeaker_embhl/readid',
         get_string('readid', 'block_readspeaker_embhl'),
         get_string('readid_description', 'block_readspeaker_embhl'),
         'region-main',
@@ -58,99 +50,101 @@ if ($ADMIN->fulltree) {
     ));
 
     $settings->add(new admin_setting_configselect(
-        'readspeaker_embhl/lang',
+        'block_readspeaker_embhl/lang',
         get_string('lang', 'block_readspeaker_embhl'),
         get_string('lang_description', 'block_readspeaker_embhl'),
         'en_us',
         array(
-            'ar_ar' => 'Arabic',
-            'eu_es' => 'Basque',
-            'ca_es' => 'Catalan',
-            'zh_cn' => 'Chinese (Mandarin)',
-            'zh_tw' => 'Chinese Taiwanese Mandarin',
-            'hr_hr' => 'Croatian',
-            'cs_cz' => 'Czech',
-            'da_dk' => 'Danish',
-            'nl_nl' => 'Dutch',
-            'fy_nl' => 'Dutch (Frisian)',
-            'nl_be' => 'Dutch (Flemish)',
-            'en_us' => 'English (American)',
-            'en_au' => 'English (Australian)',
-            'en_in' => 'English (Indian)',
-            'en_sc' => 'English (Scottish)',
-            'en_za' => 'English (South African)',
-            'en_uk' => 'English (UK)',
-            'fo_fo' => 'Faroese',
-            'fa_ir' => 'Farsi',
-            'fi_fi' => 'Finnish',
-            'fr_fr' => 'French',
-            'fr_be' => 'French (Belgian)',
-            'fr_ca' => 'French (Canadian)',
-            'gl_es' => 'Galician',
-            'he_il' => 'Hebrew',
-            'de_de' => 'German',
-            'el_gr' => 'Greek',
-            'hi_in' => 'Hindi',
-            'zh_hk' => 'Hong Kong Cantonese',
-            'hu_hu' => 'Hungarian',
-            'is_is' => 'Icelandic',
-            'it_it' => 'Italian',
-            'ja_jp' => 'Japanese',
-            'ko_kr' => 'Korean',
-            'es_es' => 'Spanish (Castilian)',
-            'es_us' => 'Spanish (American)',
-            'es_co' => 'Spanish (Columbian)',
-            'es_mx' => 'Spanish (Mexican)',
-            'no_nb' => 'Norwegian (Bokm&aring;l)',
-            'no_nn' => 'Norwegian (Nynorska)',
-            'pl_pl' => 'Polish',
-            'pt_pt' => 'Portuguese',
-            'pt_br' => 'Portuguese (Brazilian)',
-            'ro_ro' => 'Romanian',
-            'ru_ru' => 'Russian',
-            'sv_se' => 'Swedish',
-            'sv_fi' => 'Swedish (Finnish)',
-            'th_th' => 'Thai',
-            'tr_tr' => 'Turkish',
-            'cy_cy' => 'Welsh'
+            'ar_ar' => get_string('arabic', 'block_readspeaker_embhl'),
+            'eu_es' => get_string('basque', 'block_readspeaker_embhl'),
+            'ca_es' => get_string('catalan', 'block_readspeaker_embhl'),
+            'zh_cn' => get_string('chinese_mandarin', 'block_readspeaker_embhl'),
+            'zh_tw' => get_string('chinese_taiwanese', 'block_readspeaker_embhl'),
+            'hr_hr' => get_string('croatian', 'block_readspeaker_embhl'),
+            'cs_cz' => get_string('czech', 'block_readspeaker_embhl'),
+            'da_dk' => get_string('danish', 'block_readspeaker_embhl'),
+            'nl_nl' => get_string('dutch', 'block_readspeaker_embhl'),
+            'fy_nl' => get_string('dutch_frisian', 'block_readspeaker_embhl'),
+            'nl_be' => get_string('dutch_flemish', 'block_readspeaker_embhl'),
+            'en_us' => get_string('english_american', 'block_readspeaker_embhl'),
+            'en_au' => get_string('english_australian', 'block_readspeaker_embhl'),
+            'en_in' => get_string('english_indian', 'block_readspeaker_embhl'),
+            'en_sc' => get_string('english_scottish', 'block_readspeaker_embhl'),
+            'en_za' => get_string('english_southafrican', 'block_readspeaker_embhl'),
+            'en_uk' => get_string('english_brittish', 'block_readspeaker_embhl'),
+            'fo_fo' => get_string('faroese', 'block_readspeaker_embhl'),
+            'fa_ir' => get_string('farsi', 'block_readspeaker_embhl'),
+            'fi_fi' => get_string('finnish', 'block_readspeaker_embhl'),
+            'fr_fr' => get_string('french', 'block_readspeaker_embhl'),
+            'fr_be' => get_string('french_belgian', 'block_readspeaker_embhl'),
+            'fr_ca' => get_string('french_canadian', 'block_readspeaker_embhl'),
+            'gl_es' => get_string('gelician', 'block_readspeaker_embhl'),
+            'he_il' => get_string('hebrew', 'block_readspeaker_embhl'),
+            'de_de' => get_string('german', 'block_readspeaker_embhl'),
+            'el_gr' => get_string('greek', 'block_readspeaker_embhl'),
+            'hi_in' => get_string('hindi', 'block_readspeaker_embhl'),
+            'zh_hk' => get_string('hong_kong_cantonese', 'block_readspeaker_embhl'),
+            'hu_hu' => get_string('hungarian', 'block_readspeaker_embhl'),
+            'is_is' => get_string('icelandic', 'block_readspeaker_embhl'),
+            'it_it' => get_string('italian', 'block_readspeaker_embhl'),
+            'ja_jp' => get_string('japanese', 'block_readspeaker_embhl'),
+            'ko_kr' => get_string('korean', 'block_readspeaker_embhl'),
+            'es_es' => get_string('spanish_castilian', 'block_readspeaker_embhl'),
+            'es_us' => get_string('spanish_american', 'block_readspeaker_embhl'),
+            'es_co' => get_string('spanish_columbian', 'block_readspeaker_embhl'),
+            'es_mx' => get_string('spanish_mexican', 'block_readspeaker_embhl'),
+            'no_nb' => get_string('norwegian_bokmal', 'block_readspeaker_embhl'),
+            'no_nn' => get_string('norwegian_nynorsk', 'block_readspeaker_embhl'),
+            'pl_pl' => get_string('polish', 'block_readspeaker_embhl'),
+            'pt_pt' => get_string('portuguese', 'block_readspeaker_embhl'),
+            'pt_br' => get_string('portuguese_brazilian', 'block_readspeaker_embhl'),
+            'ro_ro' => get_string('romanian', 'block_readspeaker_embhl'),
+            'ru_ru' => get_string('russian', 'block_readspeaker_embhl'),
+            'sv_se' => get_string('swedish', 'block_readspeaker_embhl'),
+            'sv_fi' => get_string('swedish_finnish', 'block_readspeaker_embhl'),
+            'th_th' => get_string('thai', 'block_readspeaker_embhl'),
+            'tr_tr' => get_string('turkish', 'block_readspeaker_embhl'),
+            'uk_ua' => get_string('ukranian', 'block_readspeaker_embhl'),
+            'cy_cy' => get_string('welsh', 'block_readspeaker_embhl')
         )
     ));
 
     $settings->add(new admin_setting_configselect(
-        'readspeaker_embhl/region',
+        'block_readspeaker_embhl/region',
         get_string('region', 'block_readspeaker_embhl'),
         get_string('region_description', 'block_readspeaker_embhl'),
         'eu',
         array(
-            'af' => 'Africa',
-            'as' => 'Asia',
-            'eas' => 'East Asia',
-            'eu' => 'Europe',
-            'me' => 'Middle East',
-            'na' => 'North America',
-            'sa' => 'South America',
-            'oc' => 'Oceania'
+            'af' => get_string('africa', 'block_readspeaker_embhl'),
+            'as' => get_string('asia', 'block_readspeaker_embhl'),
+            'eas' => get_string('east_asia', 'block_readspeaker_embhl'),
+            'eu' => get_string('europe', 'block_readspeaker_embhl'),
+            'me' => get_string('middle_east', 'block_readspeaker_embhl'),
+            'na' => get_string('north_america', 'block_readspeaker_embhl'),
+            'sa' => get_string('south_america', 'block_readspeaker_embhl'),
+            'oc' => get_string('oceania', 'block_readspeaker_embhl')
         )
     ));
 
     $settings->add(new admin_setting_configtext(
-        'readspeaker_embhl/docreaderenabled',
+        'block_readspeaker_embhl/docreaderenabled',
         get_string('docreader', 'block_readspeaker_embhl'),
         get_string('docreader_description', 'block_readspeaker_embhl'), '')
     );
 
     $settings->add(new admin_setting_configselect(
-        'readspeaker_embhl/showincontent',
+        'block_readspeaker_embhl/showincontent',
         get_string('showincontent', 'block_readspeaker_embhl'),
         get_string('showincontent_description', 'block_readspeaker_embhl'),
         '0',
         array(
-                '0' => 'Show in block (default)',
-                '1' => 'Show in content')
+                '0' => get_string('showincontent_showinblock', 'block_readspeaker_embhl'),
+                '1' => get_string('showincontent_showincontent', 'block_readspeaker_embhl')
+            )
     ));
 
     $settings->add(new admin_setting_configtext(
-        'readspeaker_embhl/customparams',
+        'block_readspeaker_embhl/customparams',
         get_string('customparams', 'block_readspeaker_embhl'),
         get_string('customparams_description', 'block_readspeaker_embhl'),
         '',

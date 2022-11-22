@@ -27,7 +27,7 @@ class block_readspeaker_embhl_testcase extends advanced_testcase {
         global $CFG;
 
         $this->resetAfterTest(true);
-        set_config('lang', 'it_it', 'readspeaker_embhl');
+        set_config('lang', 'it_it', 'block_readspeaker_embhl');
 
         $title_text = array("it_it" => "Ascolta questa pagina con ReadSpeaker");
         $title = $title_text["it_it"];
@@ -36,7 +36,7 @@ class block_readspeaker_embhl_testcase extends advanced_testcase {
         $listen_description = $listen_text["it_it"];
 
         $slink = "cdn-";
-        $region = get_config('readspeaker_embhl', 'region');
+        $region = get_config('block_readspeaker_embhl', 'region');
 
         $page_url = "https://".(isset($_SERVER["SERVER_NAME"]) ? $_SERVER["SERVER_NAME"] : '').(isset($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : '');
         $encoded_url = urlencode($page_url);
@@ -47,25 +47,25 @@ class block_readspeaker_embhl_testcase extends advanced_testcase {
 
         $this->page->requires->yui_module('moodle-block_readspeaker_embhl-ReadSpeaker', 'M.block_RS.ReadSpeaker.init');
 
-        $docreader_id = get_config('readspeaker_embhl', 'docreaderenabled') ? 'cid: "' . get_config('readspeaker_embhl', 'docreaderenabled') . '"' : '';
+        $docreader_id = get_config('block_readspeaker_embhl', 'docreaderenabled') ? 'cid: "' . get_config('block_readspeaker_embhl', 'docreaderenabled') . '"' : '';
 
-        $content->text .= '<script type="text/javascript">window.rsConf = {general: {usePost: true}}; window.rsDocReaderConf = {'.$docreader_id.', proxypath: "'.$docreader_path.'", lang: "'.get_config('readspeaker_embhl', 'lang').'"}</script>
+        $content->text .= '<script type="text/javascript">window.rsConf = {general: {usePost: true}}; window.rsDocReaderConf = {'.$docreader_id.', proxypath: "'.$docreader_path.'", lang: "'.get_config('block_readspeaker_embhl', 'lang').'"}</script>
             <div id="readspeaker_button1" class="rs_skip rsbtn rs_preserve">
-            <a accesskey="L" class="rsbtn_play" title="'.$title.'" href="https://app-' . $region . '.readspeaker.com/cgi-bin/rsent?customerid=' . get_config('readspeaker_embhl', 'cid') . '&amp;lang='.get_config('readspeaker_embhl', 'lang') . '&amp;readid=' . get_config('readspeaker_embhl', 'readid').'&amp;url='.$encoded_url.get_config('readspeaker_embhl', 'customparams').'">
+            <a accesskey="L" class="rsbtn_play" title="'.$title.'" href="https://app-' . $region . '.readspeaker.com/cgi-bin/rsent?customerid=' . get_config('block_readspeaker_embhl', 'cid') . '&amp;lang='.get_config('block_readspeaker_embhl', 'lang') . '&amp;readid=' . get_config('block_readspeaker_embhl', 'readid').'&amp;url='.$encoded_url.get_config('block_readspeaker_embhl', 'customparams').'">
             <span class="rsbtn_left rsimg rspart"><span class="rsbtn_text"><span>'.$listen_description.'</span></span></span>
             <span class="rsbtn_right rsimg rsplay rspart"></span>
             </a>
             </div>';
 
-        $plugin_config_language = get_config('readspeaker_embhl', 'lang');
-        $plugin_config_customerid = get_config('readspeaker_embhl', 'cid');
-        $plugin_config_readid = get_config('readspeaker_embhl', 'readid');
+        $plugin_config_language = get_config('block_readspeaker_embhl', 'lang');
+        $plugin_config_customerid = get_config('block_readspeaker_embhl', 'cid');
+        $plugin_config_readid = get_config('block_readspeaker_embhl', 'readid');
 
-        $plugin_config_docreader = get_config('readspeaker_embhl', 'docreaderenabled');
-        $plugin_config_region = get_config('readspeaker_embhl', 'region');
+        $plugin_config_docreader = get_config('block_readspeaker_embhl', 'docreaderenabled');
+        $plugin_config_region = get_config('block_readspeaker_embhl', 'region');
 
-        $plugin_custom_javascriptparams = get_config('readspeaker_embhl', 'customjavascript');
-        $plugin_custom_params = get_config('readspeaker_embhl', 'customparams');
+        $plugin_custom_javascriptparams = get_config('block_readspeaker_embhl', 'customjavascript');
+        $plugin_custom_params = get_config('block_readspeaker_embhl', 'customparams');
 
         $content->text .= '<script type="text/javascript">window.rsConf = {general: {usePost: true}, moodle: {customerid: "' . $plugin_config_customerid .'", region: "'. $region .'"}, ui: {tools: {voicesettings: true}}}; window.rsDocReaderConf = {' . $docreader_id . 'proxypath: "' . $docreader_path . '", lang: "' . $plugin_config_language . '"}</script>'.
             '<div id="readspeaker_button1" class="rs_skip rsbtn rs_preserve rscompact">

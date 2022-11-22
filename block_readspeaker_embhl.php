@@ -28,24 +28,21 @@ class block_readspeaker_embhl extends block_base {
     public function init() {
         $this->title = get_string('pluginname', 'block_readspeaker_embhl');
 
-        // Set all ReadSpeaker variables
-        $this->plugin_config_language = get_config('readspeaker_embhl', 'lang');
-        $this->plugin_config_customerid = get_config('readspeaker_embhl', 'cid');
-        $this->plugin_config_readid = get_config('readspeaker_embhl', 'readid');
-        $this->plugin_config_version = get_config('readspeaker_embhl', 'webreader_version');
+        // Set all ReadSpeaker variables.
+        $this->plugin_config_language = get_config('block_readspeaker_embhl', 'lang');
+        $this->plugin_config_customerid = get_config('block_readspeaker_embhl', 'cid');
+        $this->plugin_config_readid = get_config('block_readspeaker_embhl', 'readid');
 
-        $this->plugin_config_docreader = get_config('readspeaker_embhl', 'docreaderenabled');
-        $this->plugin_config_region = get_config('readspeaker_embhl', 'region');
+        $this->plugin_config_docreader = get_config('block_readspeaker_embhl', 'docreaderenabled');
+        $this->plugin_config_region = get_config('block_readspeaker_embhl', 'region');
 
-        $this->plugin_custom_javascriptparams = get_config('readspeaker_embhl', 'customjavascript');
-        $this->plugin_custom_params = get_config('readspeaker_embhl', 'customparams');
+        $this->plugin_custom_javascriptparams = get_config('block_readspeaker_embhl', 'customjavascript');
+        $this->plugin_custom_params = get_config('block_readspeaker_embhl', 'customparams');
 
-        $this->plugin_custom_showincontent = get_config('readspeaker_embhl', 'showincontent');
-
+        $this->plugin_custom_showincontent = get_config('block_readspeaker_embhl', 'showincontent');
     }
 
     public function specialization() {
-
         if (isset($this->config)) {
             if (!empty($this->config->lang)) {
                 $this->plugin_config_language = $this->config->lang;
@@ -64,26 +61,21 @@ class block_readspeaker_embhl extends block_base {
             return $this->content;
         }
 
-        // Set title text.
-        $temp = get_string('titletext_' . $this->plugin_config_language, 'block_readspeaker_embhl');
-        $this->title = (!empty($temp)) ? $temp : get_string('titletext_en_us', 'block_readspeaker_embhl');
+        // Set default text on the Listen button.
+        $listen_text = get_string('listentext', 'block_readspeaker_embhl');
+        $listen_text_title = get_string('listen_titletext', 'block_readspeaker_embhl');
 
-        // Set Listen button text.
-        $temp = get_string('listentext_' . $this->plugin_config_language, 'block_readspeaker_embhl');
-        $listen_text = (!empty($temp)) ? $temp : get_string('listentext_en_us', 'block_readspeaker_embhl');
-
-        // Set region.
-        $region = $this->plugin_config_region;
+        $uilang = $this->moodle_to_rslang(current_language());
 
         // An encoded version of the page URL.
         $encoded_url = urlencode($this->page->url);
 
         // Set path for docReader proxy component.
-        $docreader_path = $CFG->wwwroot."/blocks/readspeaker_embhl/docreader/proxy.php";
+        $docreader_path = $CFG->wwwroot . "/blocks/readspeaker_embhl/docreader/proxy.php";
         $this->content       = new stdClass;
         $this->content->text = '';
         // Get the docReader ID
-        $docreader_id = $this->plugin_config_docreader ? 'cid: "'.$this->plugin_config_docreader.'", ' : '';
+        $docreader = $this->plugin_config_docreader ? 'cid: "' . $this->plugin_config_docreader.'", ' : '';
 
         // Request the JS component.
         $this->page->requires->yui_module('moodle-block_readspeaker_embhl-ReadSpeaker', 'M.block_RS.ReadSpeaker.init');
@@ -114,13 +106,13 @@ class block_readspeaker_embhl extends block_base {
             '       },',
             '       moodle: {',
             '           customerid: "'.$this->plugin_config_customerid.'",',
-            '           region: "'.$region.'",',
+            '           region: "'.$this->plugin_config_region.'",',
             '           showInContent: "'.$show_in_content.'",',
             '           em: "'.$edit_mode.'"',
             '       }',
             '   };',
             '   window.rsDocReaderConf = {',
-            '       ' . $docreader_id .  '',
+            '       ' . $docreader,
             '       proxypath: "'.$docreader_path.'",',
             '       lang: "'.$this->plugin_config_language.'"',
             '   };',
@@ -128,22 +120,23 @@ class block_readspeaker_embhl extends block_base {
         ]);
 
         // Determine href to use for Listen button.
-        $href = 'https://app-'.$region.
-        '.readspeaker.com/cgi-bin/rsent?customerid='.$this->plugin_config_customerid.
-        '&amp;lang='.$this->plugin_config_language.
-        '&amp;readid='.$this->plugin_config_readid.
-        '&amp;url='.$encoded_url.
-        $audiofile_name.
+        $href = 'https://app-' . $this->plugin_config_region .
+        '.readspeaker.com/cgi-bin/rsent?customerid=' . $this->plugin_config_customerid .
+        '&amp;lang=' . $this->plugin_config_language .
+        '&amp;uilang=' . $uilang .
+        '&amp;readid=' . $this->plugin_config_readid .
+        '&amp;url=' . $encoded_url .
+        $audiofile_name .
         $this->plugin_custom_params;
 
         // HTML code for Listen button in block.
         $listen_button_code = implode(PHP_EOL, [
             '<div id="readspeaker_button1" class="rs_skip rsbtn rs_preserve rscompact">',
-            '   <a accesskey="L" class="rsbtn_play" title="'.$this->title.'" href='.$href.'>',
+            '   <a accesskey="L" class="rsbtn_play" title="' . $title_text . '" href=' . $href . '>',
             '       <span class="rsbtn_left rsimg rspart">',
             '           <span class="rsbtn_text">',
             '               <span>',
-            '                   '.$listen_text.'',
+            '                   ' . $listen_text . '',
             '               </span>',
             '           </span>',
             '       </span>',
@@ -175,7 +168,7 @@ class block_readspeaker_embhl extends block_base {
     }
 
     /**
-     * Function replaces diacritic letters in the sting with
+     * Function replaces diacritic letters in the string with
      * its regular analogues and returns "clear" string.
      *
      * @param string $str
@@ -183,8 +176,71 @@ class block_readspeaker_embhl extends block_base {
      */
     private function clear_letters($str)
     {
-        $a = array('À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'ß', 'à', 'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'Ā', 'ā', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ', 'ĉ', 'Ċ', 'ċ', 'Č', 'č', 'Ď', 'ď', 'Đ', 'đ', 'Ē', 'ē', 'Ĕ', 'ĕ', 'Ė', 'ė', 'Ę', 'ę', 'Ě', 'ě', 'Ĝ', 'ĝ', 'Ğ', 'ğ', 'Ġ', 'ġ', 'Ģ', 'ģ', 'Ĥ', 'ĥ', 'Ħ', 'ħ', 'Ĩ', 'ĩ', 'Ī', 'ī', 'Ĭ', 'ĭ', 'Į', 'į', 'İ', 'ı', 'Ĳ', 'ĳ', 'Ĵ', 'ĵ', 'Ķ', 'ķ', 'Ĺ', 'ĺ', 'Ļ', 'ļ', 'Ľ', 'ľ', 'Ŀ', 'ŀ', 'Ł', 'ł', 'Ń', 'ń', 'Ņ', 'ņ', 'Ň', 'ň', 'ŉ', 'Ō', 'ō', 'Ŏ', 'ŏ', 'Ő', 'ő', 'Œ', 'œ', 'Ŕ', 'ŕ', 'Ŗ', 'ŗ', 'Ř', 'ř', 'Ś', 'ś', 'Ŝ', 'ŝ', 'Ş', 'ş', 'Š', 'š', 'Ţ', 'ţ', 'Ť', 'ť', 'Ŧ', 'ŧ', 'Ũ', 'ũ', 'Ū', 'ū', 'Ŭ', 'ŭ', 'Ů', 'ů', 'Ű', 'ű', 'Ų', 'ų', 'Ŵ', 'ŵ', 'Ŷ', 'ŷ', 'Ÿ', 'Ź', 'ź', 'Ż', 'ż', 'Ž', 'ž', 'ſ', 'ƒ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ǎ', 'ǎ', 'Ǐ', 'ǐ', 'Ǒ', 'ǒ', 'Ǔ', 'ǔ', 'Ǖ', 'ǖ', 'Ǘ', 'ǘ', 'Ǚ', 'ǚ', 'Ǜ', 'ǜ', 'Ǻ', 'ǻ', 'Ǽ', 'ǽ', 'Ǿ', 'ǿ');
-        $b = array('A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o');
+        $a = ['À', 'Á', 'Â', 'Ã', 'Ä', 'Å', 'Æ', 'Ç', 'È', 'É', 'Ê', 'Ë', 'Ì', 'Í', 'Î', 'Ï', 'Ð', 'Ñ', 'Ò', 'Ó', 'Ô', 'Õ', 'Ö', 'Ø', 'Ù', 'Ú', 'Û', 'Ü', 'Ý', 'ß', 'à', 'á', 'â', 'ã', 'ä', 'å', 'æ', 'ç', 'è', 'é', 'ê', 'ë', 'ì', 'í', 'î', 'ï', 'ñ', 'ò', 'ó', 'ô', 'õ', 'ö', 'ø', 'ù', 'ú', 'û', 'ü', 'ý', 'ÿ', 'Ā', 'ā', 'Ă', 'ă', 'Ą', 'ą', 'Ć', 'ć', 'Ĉ', 'ĉ', 'Ċ', 'ċ', 'Č', 'č', 'Ď', 'ď', 'Đ', 'đ', 'Ē', 'ē', 'Ĕ', 'ĕ', 'Ė', 'ė', 'Ę', 'ę', 'Ě', 'ě', 'Ĝ', 'ĝ', 'Ğ', 'ğ', 'Ġ', 'ġ', 'Ģ', 'ģ', 'Ĥ', 'ĥ', 'Ħ', 'ħ', 'Ĩ', 'ĩ', 'Ī', 'ī', 'Ĭ', 'ĭ', 'Į', 'į', 'İ', 'ı', 'Ĳ', 'ĳ', 'Ĵ', 'ĵ', 'Ķ', 'ķ', 'Ĺ', 'ĺ', 'Ļ', 'ļ', 'Ľ', 'ľ', 'Ŀ', 'ŀ', 'Ł', 'ł', 'Ń', 'ń', 'Ņ', 'ņ', 'Ň', 'ň', 'ŉ', 'Ō', 'ō', 'Ŏ', 'ŏ', 'Ő', 'ő', 'Œ', 'œ', 'Ŕ', 'ŕ', 'Ŗ', 'ŗ', 'Ř', 'ř', 'Ś', 'ś', 'Ŝ', 'ŝ', 'Ş', 'ş', 'Š', 'š', 'Ţ', 'ţ', 'Ť', 'ť', 'Ŧ', 'ŧ', 'Ũ', 'ũ', 'Ū', 'ū', 'Ŭ', 'ŭ', 'Ů', 'ů', 'Ű', 'ű', 'Ų', 'ų', 'Ŵ', 'ŵ', 'Ŷ', 'ŷ', 'Ÿ', 'Ź', 'ź', 'Ż', 'ż', 'Ž', 'ž', 'ſ', 'ƒ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ǎ', 'ǎ', 'Ǐ', 'ǐ', 'Ǒ', 'ǒ', 'Ǔ', 'ǔ', 'Ǖ', 'ǖ', 'Ǘ', 'ǘ', 'Ǚ', 'ǚ', 'Ǜ', 'ǜ', 'Ǻ', 'ǻ', 'Ǽ', 'ǽ', 'Ǿ', 'ǿ'];
+        $b = ['A', 'A', 'A', 'A', 'A', 'A', 'AE', 'C', 'E', 'E', 'E', 'E', 'I', 'I', 'I', 'I', 'D', 'N', 'O', 'O', 'O', 'O', 'O', 'O', 'U', 'U', 'U', 'U', 'Y', 's', 'a', 'a', 'a', 'a', 'a', 'a', 'ae', 'c', 'e', 'e', 'e', 'e', 'i', 'i', 'i', 'i', 'n', 'o', 'o', 'o', 'o', 'o', 'o', 'u', 'u', 'u', 'u', 'y', 'y', 'A', 'a', 'A', 'a', 'A', 'a', 'C', 'c', 'C', 'c', 'C', 'c', 'C', 'c', 'D', 'd', 'D', 'd', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'G', 'g', 'G', 'g', 'G', 'g', 'G', 'g', 'H', 'h', 'H', 'h', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'I', 'i', 'IJ', 'ij', 'J', 'j', 'K', 'k', 'L', 'l', 'L', 'l', 'L', 'l', 'L', 'l', 'l', 'l', 'N', 'n', 'N', 'n', 'N', 'n', 'n', 'O', 'o', 'O', 'o', 'O', 'o', 'OE', 'oe', 'R', 'r', 'R', 'r', 'R', 'r', 'S', 's', 'S', 's', 'S', 's', 'S', 's', 'T', 't', 'T', 't', 'T', 't', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'W', 'w', 'Y', 'y', 'Y', 'Z', 'z', 'Z', 'z', 'Z', 'z', 's', 'f', 'O', 'o', 'U', 'u', 'A', 'a', 'I', 'i', 'O', 'o', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'A', 'a', 'AE', 'ae', 'O', 'o'];
         return str_replace($a, $b, $str);
+    }
+
+    /**
+     * Function for converting a ReadSpeaker language code to Moodle language,
+     * provide Moodle language code (ISO 639-1), returns ReadSpeaker lang-code (xx_yy).
+     *
+     * @param string $lang
+     * @return string
+     */
+    private function moodle_to_rslang($lang) {
+        // Define a list of supported ISO 639-1 to ReadSpeaker lang-codes
+        $langlist = [
+            'ar' => 'ar_ar',
+            'en' => 'en_us',
+            'ca' => 'ca_es',
+            'ca' => 'vl_es',
+            'cz' => 'cs_cz',
+            'cy' => 'cy_cy',
+            'de' => 'de_de',
+            'da' => 'da_dk',
+            'el' => 'el_gr',
+            'es' => 'es_es',
+            'eu' => 'eu_es',
+            'fi' => 'fi_fi',
+            'fr' => 'fr_fr',
+            'fo' => 'fo_fo',
+            'fy' => 'fy_nl',
+            'gl' => 'gl_es',
+            'he' => 'he_il',
+            'hi' => 'hi_in',
+            'hr' => 'hr_hr',
+            'it' => 'it_it',
+            'is' => 'is_is',
+            'ja' => 'ja_jp',
+            'ko' => 'ko_kr',
+            'nl' => 'nl_nl',
+            'nb' => 'no_nb',
+            'nn' => 'no_nn',
+            'pl' => 'pl_pl',
+            'pt' => 'pt_pt',
+            'ro' => 'ro_ro',
+            'ru' => 'ru_ru',
+            'sv' => 'sv_se',
+            'tr' => 'tr_tr',
+            'uk' => 'uk_ua',
+            'zh' => 'zh_cn',
+            'zh_cn' => 'zh_cn',
+            'yue' => 'zh_hk',
+            'zh_tw' => 'zh_tw',
+            'nan' => 'zh_tw'
+        ];
+
+        // Check if language map exists and return Moodle language code.
+        if (isset($langlist[$lang])) {
+            return $langlist[$lang];
+        }
+        // If there is no language found for the entire code, only look at the two first characters in case it is a shortcode.
+        if (isset($langlist[substr($lang, 0, 2)])) {
+            return $langlist[substr($lang, 0, 2)];
+        }
+
+        // If not found, return the default English value.
+        return $langlist['en'];
     }
 }

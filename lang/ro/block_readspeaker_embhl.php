@@ -18,13 +18,13 @@
  * ReadSpeakers webReader for Moodle block.
  *
  * @package    block_readspeaker_embhl
- * @copyright  2016 ReadSpeaker <info@readspeaker.com>
+ * @copyright  2022 ReadSpeaker <info@readspeaker.com>
  * @author     Richard Risholm
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+// Listen button text
+$string['listentext'] = "Asculta";
 
-$plugin->version = 2022112201;  // YYYYMMDDHH (year, month, day, 24-hr time)
-$plugin->requires = 2015111600; // YYYYMMDDHH
-$plugin->component = 'block_readspeaker_embhl'; // Full name of the plugin (used for diagnostics)
+// Listen button descriptive title text
+$string['listen_titletext'] = "Asculta";
