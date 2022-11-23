@@ -132,7 +132,7 @@ class block_readspeaker_embhl extends block_base {
         // HTML code for Listen button in block.
         $listen_button_code = implode(PHP_EOL, [
             '<div id="readspeaker_button1" class="rs_skip rsbtn rs_preserve rscompact">',
-            '   <a accesskey="L" class="rsbtn_play" title="' . $title_text . '" href=' . $href . '>',
+            '   <a accesskey="L" class="rsbtn_play" title="' . $listen_text_title . '" href=' . $href . '>',
             '       <span class="rsbtn_left rsimg rspart">',
             '           <span class="rsbtn_text">',
             '               <span>',
