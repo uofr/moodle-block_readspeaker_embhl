@@ -19,7 +19,7 @@ Installation
 ------------
 
 Install the plugin to the folder
-/blocks/block_readspeaker_embhl
+/blocks/readspeaker_embhl
 
 See [https://docs.moodle.org/en/Installing_plugins](https://docs.moodle.org/en/Installing_plugins) for details on installing Moodle plugins
 
