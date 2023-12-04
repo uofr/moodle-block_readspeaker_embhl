@@ -29,8 +29,9 @@ class block_readspeaker_embhl_edit_form extends block_edit_form {
         // Section header title according to language file.
         $mform->addElement('header', 'configheader', get_string('block_settings_title', 'block_readspeaker_embhl'));
 
-        // Set a custom language
+        // Set a custom language.
         $language_option = array(
+            'af_za' => get_string('afrikaans', 'block_readspeaker_embhl'),
             'ar_ar' => get_string('arabic', 'block_readspeaker_embhl'),
             'eu_es' => get_string('basque', 'block_readspeaker_embhl'),
             'ca_es' => get_string('catalan', 'block_readspeaker_embhl'),
@@ -45,6 +46,7 @@ class block_readspeaker_embhl_edit_form extends block_edit_form {
             'en_us' => get_string('english_american', 'block_readspeaker_embhl'),
             'en_au' => get_string('english_australian', 'block_readspeaker_embhl'),
             'en_in' => get_string('english_indian', 'block_readspeaker_embhl'),
+            'en_nz' => get_string('english_newzealand', 'block_readspeaker_embhl'),
             'en_sc' => get_string('english_scottish', 'block_readspeaker_embhl'),
             'en_za' => get_string('english_southafrican', 'block_readspeaker_embhl'),
             'en_uk' => get_string('english_brittish', 'block_readspeaker_embhl'),
@@ -62,9 +64,17 @@ class block_readspeaker_embhl_edit_form extends block_edit_form {
             'zh_hk' => get_string('hong_kong_cantonese', 'block_readspeaker_embhl'),
             'hu_hu' => get_string('hungarian', 'block_readspeaker_embhl'),
             'is_is' => get_string('icelandic', 'block_readspeaker_embhl'),
+            'nr_za' => get_string('isindebele', 'block_readspeaker_embhl'),
+            'xh_za' => get_string('isixhosa', 'block_readspeaker_embhl'),
+            'zu_za' => get_string('isizulu', 'block_readspeaker_embhl'),
             'it_it' => get_string('italian', 'block_readspeaker_embhl'),
             'ja_jp' => get_string('japanese', 'block_readspeaker_embhl'),
             'ko_kr' => get_string('korean', 'block_readspeaker_embhl'),
+            'lv_lv' => get_string('latvian', 'block_readspeaker_embhl'),
+            'nso' => get_string('sepedi', 'block_readspeaker_embhl'),
+            'st_za' => get_string('sesotho', 'block_readspeaker_embhl'),
+            'tn_za' => get_string('setswana', 'block_readspeaker_embhl'),
+            'ss_za' => get_string('siswati', 'block_readspeaker_embhl'),
             'es_es' => get_string('spanish_castilian', 'block_readspeaker_embhl'),
             'es_us' => get_string('spanish_american', 'block_readspeaker_embhl'),
             'es_co' => get_string('spanish_columbian', 'block_readspeaker_embhl'),
@@ -79,17 +89,30 @@ class block_readspeaker_embhl_edit_form extends block_edit_form {
             'sv_se' => get_string('swedish', 'block_readspeaker_embhl'),
             'sv_fi' => get_string('swedish_finnish', 'block_readspeaker_embhl'),
             'th_th' => get_string('thai', 'block_readspeaker_embhl'),
+            've_za' => get_string('tshivenda', 'block_readspeaker_embhl'),
             'tr_tr' => get_string('turkish', 'block_readspeaker_embhl'),
             'uk_ua' => get_string('ukranian', 'block_readspeaker_embhl'),
-            'cy_cy' => get_string('welsh', 'block_readspeaker_embhl')
+            'cy_cy' => get_string('welsh', 'block_readspeaker_embhl'),
+            'ts_za' => get_string('xitsonga', 'block_readspeaker_embhl')
         );
         $language_select = $mform->addElement('select', 'config_lang', get_string('lang', 'block_readspeaker_embhl'), $language_option);
         $language_select->setSelected(get_config('block_readspeaker_embhl', 'lang'));
+        $mform->addHelpButton('config_lang', 'lang', 'block_readspeaker_embhl');
 
-        // For custom parameters
+        // For custom parameters.
         $mform->addElement('text', 'config_customparams', get_string('customparams', 'block_readspeaker_embhl'));
         $mform->setDefault('config_customparams', get_config('block_readspeaker_embhl', 'customparams'));
         $mform->setType('config_customparams', PARAM_TEXT);
+        $mform->addHelpButton('config_customparams', 'customparams', 'block_readspeaker_embhl');
+
+        // For setting the &mode url parameter in the webReader script.
+        $mode_options = array(
+            'standard' => get_string('standard', 'block_readspeaker_embhl'),
+            'restricted' => get_string('restricted', 'block_readspeaker_embhl')
+        );
+        $mode_select = $mform->addElement('select', 'config_mode', get_string('webreaderfeatures', 'block_readspeaker_embhl'), $mode_options);
+        $mode_select->setSelected(get_config('block_readspeaker_embhl', 'mode'));
+        $mform->addHelpButton('config_mode', 'webreaderfeatures', 'block_readspeaker_embhl');
     }
 
     function validation($data, $files) {

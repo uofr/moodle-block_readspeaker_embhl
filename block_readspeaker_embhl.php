@@ -33,13 +33,18 @@ class block_readspeaker_embhl extends block_base {
         $this->plugin_config_customerid = get_config('block_readspeaker_embhl', 'cid');
         $this->plugin_config_readid = get_config('block_readspeaker_embhl', 'readid');
 
-        $this->plugin_config_docreader = get_config('block_readspeaker_embhl', 'docreaderenabled');
+        $this->plugin_config_docreader = get_config('block_readspeaker_embhl', 'docreader');
         $this->plugin_config_region = get_config('block_readspeaker_embhl', 'region');
+
+        $this->plugin_config_latestscript = get_config('block_readspeaker_embhl', 'latestscript');
 
         $this->plugin_custom_javascriptparams = get_config('block_readspeaker_embhl', 'customjavascript');
         $this->plugin_custom_params = get_config('block_readspeaker_embhl', 'customparams');
 
+        $this->plugin_disable_in_em = get_config('block_readspeaker_embhl', 'disableinem');
         $this->plugin_custom_showincontent = get_config('block_readspeaker_embhl', 'showincontent');
+
+        $this->plugin_mode = get_config('block_readspeaker_embhl', 'mode');
     }
 
     public function specialization() {
@@ -49,6 +54,9 @@ class block_readspeaker_embhl extends block_base {
             }
             if (!empty($this->config->customparams)) {
                 $this->plugin_custom_params = $this->config->customparams;
+            }
+            if (!empty($this->config->mode)) {
+                $this->plugin_mode = $this->config->mode;
             }
         }
     }
@@ -75,10 +83,7 @@ class block_readspeaker_embhl extends block_base {
         $this->content       = new stdClass;
         $this->content->text = '';
         // Get the docReader ID
-        $docreader = $this->plugin_config_docreader ? 'cid: "' . $this->plugin_config_docreader.'", ' : '';
-
-        // Request the JS component.
-        $this->page->requires->yui_module('moodle-block_readspeaker_embhl-ReadSpeaker', 'M.block_RS.ReadSpeaker.init');
+        $docreader = $this->plugin_config_docreader ? 'cid: "' . $this->plugin_config_customerid.'", ' : '';
 
         // Set the download file name the same as the current page title.
         $audiofile_name = "";
@@ -105,16 +110,18 @@ class block_readspeaker_embhl extends block_base {
             '           usePost: true',
             '       },',
             '       moodle: {',
-            '           customerid: "'.$this->plugin_config_customerid.'",',
-            '           region: "'.$this->plugin_config_region.'",',
-            '           showInContent: "'.$show_in_content.'",',
-            '           em: "'.$edit_mode.'"',
+            '           customerid: "' . $this->plugin_config_customerid . '",',
+            '           region: "' . $this->plugin_config_region . '",',
+            '           showInContent: "' . $show_in_content . '",',
+            '           latestVersion: "' . $this->plugin_config_latestscript . '",',
+            '           em: "' . $edit_mode . '",',
+            '           mode: "' . $this->plugin_mode . '"',
             '       }',
             '   };',
             '   window.rsDocReaderConf = {',
             '       ' . $docreader,
-            '       proxypath: "'.$docreader_path.'",',
-            '       lang: "'.$this->plugin_config_language.'"',
+            '       proxypath: "' . $docreader_path . '",',
+            '       lang: "' . $this->plugin_config_language . '"',
             '   };',
             '</script>'
         ]);
@@ -127,17 +134,18 @@ class block_readspeaker_embhl extends block_base {
         '&amp;readid=' . $this->plugin_config_readid .
         '&amp;url=' . $encoded_url .
         $audiofile_name .
+        // In Moodle we want to include two sets of xslrules, one customer specific and one general theme rule.
+        // We only do this for supported themes to avoid spamming logs with warnings.
+        ($this->improved_reading_theme($CFG->theme) ? '&amp;xslrule=customer,moodle-' . $CFG->theme : '') .
         $this->plugin_custom_params;
 
         // HTML code for Listen button in block.
         $listen_button_code = implode(PHP_EOL, [
             '<div id="readspeaker_button1" class="rs_skip rsbtn rs_preserve rscompact">',
-            '   <a accesskey="L" class="rsbtn_play" title="' . $listen_text_title . '" href=' . $href . '>',
+            '   <a class="rsbtn_play" title="' . $listen_text_title . '" href="' . $href . '">',
             '       <span class="rsbtn_left rsimg rspart">',
             '           <span class="rsbtn_text">',
-            '               <span>',
-            '                   ' . $listen_text . '',
-            '               </span>',
+            '               <span>'. $listen_text . '</span>',
             '           </span>',
             '       </span>',
             '       <span class="rsbtn_right rsimg rsplay rspart"></span>',
@@ -146,7 +154,11 @@ class block_readspeaker_embhl extends block_base {
         ]);
 
         // Populate the block content with the inline script settings and Listen button.
-        $this->content->text .= $script_code.$listen_button_code;
+        if (!($this->plugin_disable_in_em === '1' && $edit_mode)) {
+            // Request the JS component.
+            $this->page->requires->yui_module('moodle-block_readspeaker_embhl-ReadSpeaker', 'M.block_RS.ReadSpeaker.init');
+            $this->content->text .= $script_code.$listen_button_code;
+        }
 
         return $this->content;
     }
@@ -191,6 +203,7 @@ class block_readspeaker_embhl extends block_base {
     private function moodle_to_rslang($lang) {
         // Define a list of supported ISO 639-1 to ReadSpeaker lang-codes
         $langlist = [
+            'af' => 'af_za',
             'ar' => 'ar_ar',
             'en' => 'en_us',
             'ca' => 'ca_es',
@@ -216,19 +229,27 @@ class block_readspeaker_embhl extends block_base {
             'ko' => 'ko_kr',
             'nl' => 'nl_nl',
             'nb' => 'no_nb',
+            'nd' => 'nr_za',
+            'nr' => 'nr_za',
             'nn' => 'no_nn',
             'pl' => 'pl_pl',
             'pt' => 'pt_pt',
             'ro' => 'ro_ro',
             'ru' => 'ru_ru',
+            'ss' => 'ss_za',
             'sv' => 'sv_se',
+            'tn' => 'tn_za',
             'tr' => 'tr_tr',
+            'ts' => 'ts_za',
             'uk' => 'uk_ua',
+            've' => 've_za',
             'zh' => 'zh_cn',
             'zh_cn' => 'zh_cn',
             'yue' => 'zh_hk',
             'zh_tw' => 'zh_tw',
-            'nan' => 'zh_tw'
+            'nan' => 'zh_tw',
+            'xh' => 'xh_za',
+            'zu' => 'zu_za'
         ];
 
         // Check if language map exists and return Moodle language code.
@@ -242,5 +263,20 @@ class block_readspeaker_embhl extends block_base {
 
         // If not found, return the default English value.
         return $langlist['en'];
+    }
+
+    /**
+     * Function for checking if theme has supported improved reading rules, curently only snap and boost.
+     * Uses pre-set list of themes that have improved reading. Returns true correct and false otherwise.
+     *
+     * @param string $theme
+     * @return boolean
+     */
+    private function improved_reading_theme($theme) {
+        $theme_list = [
+            'snap',
+            'boost'
+        ];
+        return in_array($theme, $theme_list);
     }
 }

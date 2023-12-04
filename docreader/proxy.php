@@ -37,7 +37,7 @@ require_once("$CFG->libdir/filelib.php");
 $current_stage = optional_param('stage', 'init', PARAM_ALPHA);
 if ($current_stage == 'fetch') {
     // Get the document to fetch.
-    $document_url = required_param('url', PARAM_URL);
+    $document_url = s(required_param('url', PARAM_URL));
 
     // Check that the request is made towards the Moodle server.
     if (parse_url($document_url, PHP_URL_HOST) != parse_url($CFG->wwwroot, PHP_URL_HOST)) {
@@ -56,7 +56,7 @@ if ($current_stage == 'fetch') {
     // Get the token.
     $use_token = true;
     if (isset($_COOKIE['DocReaderToken'])) {
-        $token = $_COOKIE['DocReaderToken'];
+        $token = s($_COOKIE['DocReaderToken']);
     } else {
         // The URL is being accessed directly, redirect to the document instead
         header('Location: ' . $document_url);
@@ -170,7 +170,7 @@ if ($current_stage == 'fetch') {
         }
     }
 
-    $sessioncookie = implode(';', $cookies);
+    $sessioncookie = s(implode(';', $cookies));
 
     // Generate a random token.
     $token = random_string(20);

@@ -32,7 +32,7 @@ $string['readspeaker_embhl:edit'] = 'Edit setting for the webReader block';
 
 // Admin Configuration Strings.
 $string['header_config'] = 'Configuration Options';
-$string['header_config_description'] = 'Below you will find the configuration options available for the ReadSpeaker webReader plugin.';
+$string['header_config_help'] = 'Below you will find the configuration options available for the ReadSpeaker webReader plugin.';
 
 // Block title.
 $string['block_title'] = 'Listen to this page using ReadSpeaker';
@@ -40,13 +40,14 @@ $string['block_settings_title'] = 'Configure ReadSpeaker webReader';
 
 // CustomerID.
 $string['customerid'] = 'Customer ID (required)';
-$string['customerid_description'] = 'Your ReadSpeaker Customer ID (example "1234").';
+$string['customerid_help'] = 'Your ReadSpeaker Customer ID (example "1234").';
 
 // Language.
 $string['lang'] = 'Reading language (required)';
-$string['lang_description'] = 'Select the reading language for your ReadSpeaker installation (the selected language must be enabled in your ReadSpeaker account).';
+$string['lang_help'] = 'Select the reading language for the Listen button (the selected language must be enabled in your ReadSpeaker account).';
 
 // List of reading languages.
+$string['afrikaans'] = 'Afrikaans';
 $string['arabic'] = 'Arabic';
 $string['basque'] = 'Basque';
 $string['catalan'] = 'Catalan';
@@ -61,6 +62,7 @@ $string['dutch_flemish'] = 'Dutch (Flemish)';
 $string['english_american'] = 'English (American)';
 $string['english_australian'] = 'English (Australian)';
 $string['english_indian'] = 'English (Indian)';
+$string['english_newzealand'] = 'English (New Zealand)';
 $string['english_scottish'] = 'English (Scottish)';
 $string['english_southafrican'] = 'English (South African)';
 $string['english_brittish'] = 'English (UK)';
@@ -78,9 +80,17 @@ $string['hindi'] = 'Hindi';
 $string['hong_kong_cantonese'] = 'Hong Kong Cantonese';
 $string['hungarian'] = 'Hungarian';
 $string['icelandic'] = 'Icelandic';
+$string['isindebele'] = 'IsiNdebele';
+$string['isixhosa'] = 'IsiXhosa';
+$string['isizulu'] = 'IsiZulu';
 $string['italian'] = 'Italian';
 $string['japanese'] = 'Japanese';
 $string['korean'] = 'Korean';
+$string['latvian'] = 'latvian';
+$string['sepedi'] = 'Sepedi';
+$string['sesotho'] = 'Sesotho';
+$string['setswana'] = 'Setswana';
+$string['siswati'] = 'Siswati';
 $string['spanish_castilian'] = 'Spanish (Castilian)';
 $string['spanish_american'] = 'Spanish (American)';
 $string['spanish_columbian'] = 'Spanish (Columbian)';
@@ -95,17 +105,20 @@ $string['russian'] = 'Russian';
 $string['swedish'] = 'Swedish';
 $string['swedish_finnish'] = 'Swedish (Finnish)';
 $string['thai'] = 'Thai';
+$string['tshivenda'] = 'Tshivenda';
 $string['turkish'] = 'Turkish';
 $string['ukranian'] = 'Ukranian';
 $string['welsh'] = 'Welsh';
+$string['xitsonga'] = 'Xitsonga';
+
 
 // Language.
 $string['region'] = 'Region';
-$string['region_description'] = 'Select the region for your ReadSpeaker installation.';
+$string['region_help'] = 'Select the region for your ReadSpeaker installation.';
 
 // Readid.
 $string['readid'] = 'Reading area ID (required)';
-$string['readid_description'] = 'The ID of the block level element which is to be read (example "region-main").';
+$string['readid_help'] = 'The ID of the block level element which is to be read (example "region-main").';
 
 // Region names.
 $string['africa'] = 'Africa';
@@ -118,18 +131,32 @@ $string['south_america'] = 'South America';
 $string['oceania'] = 'Oceania';
 
 // DocReader.
-$string['docreader'] = 'docReaderID';
-$string['docreader_description'] = 'Enter your DocReaderID in order to enable DocReader in Moodle (DocReader must be enabled in your ReadSpeaker account). Leave blank to disable.';
+$string['docreader'] = 'Enable docReader';
+$string['docreader_help'] = 'Check to enable docReader (docReader must be enabled in your ReadSpeaker account).';
 
 // Player placement.
 $string['showincontent'] = 'Listen button placement';
-$string['showincontent_description'] = 'The Listen button is by default placed in a block in the sidebar. You can move the player to the top of the content instead.';
+$string['showincontent_help'] = 'The Listen button is by default placed in a block in the sidebar. You can move the player to the top of the content instead.';
 $string['showincontent_showinblock'] = 'Show in block';
 $string['showincontent_showincontent'] = 'Show in content';
 
+// Choosing to disable webReader in editing mode.
+$string['disableinem'] = 'Advanced option: Disable in editing mode.';
+$string['disableinem_help'] = 'Check this option to disable the webReader functionality when in editing mode, the block will still display on pages but the Listen button and scripts will not be loaded when in editing mode.';
+
+// Using latest version of webReader for Education scripts.
+$string['latestscript'] = 'Advanced option: Latest script version';
+$string['latestscript_help'] = 'Check to use the latest version of the webReader for Education scripts for testing purposes (WARNING: latest scripts will always automatically update with new webReader for Education releases).';
+
 // Custom parameters.
 $string['customparams'] = 'Advanced option: Custom parameters';
-$string['customparams_description'] = 'Specify custom parameters to the ReadSpeaker Listen button (adds in addition to default).';
+$string['customparams_help'] = 'Specify custom parameters to the ReadSpeaker Listen button (adds in addition to default).';
+
+// Restricted mode configuration.
+$string['webreaderfeatures'] = 'webReader features';
+$string['webreaderfeatures_help'] = 'This sets the mode for webReader, which in turn controls which webReader listen button features are available.';
+$string['standard'] = 'Standard';
+$string['restricted'] = 'Restricted';
 
 // For cache.
 $string['cachedef_readspeaker_tokens'] = 'DocReader token cache';

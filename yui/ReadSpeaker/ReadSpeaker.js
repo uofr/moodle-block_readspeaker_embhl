@@ -30,16 +30,18 @@ YUI.add("moodle-block_readspeaker_embhl-ReadSpeaker", function(){
             if (!window.rsConf) window.rsConf = {};
 
             // Check params
-            var docreaderParam = (window.rsDocReaderConf && window.rsDocReaderConf.cid) ? '&dload=DocReader.Moodle.AutoAdd' : '';
+            var docreaderParam = (window.rsDocReaderConf && window.rsDocReaderConf.cid) ? '&revdload=DocReader.AutoAdd' : '';
             var customerid = (window.rsConf && window.rsConf.moodle && window.rsConf.moodle.customerid) ? window.rsConf.moodle.customerid : 'default';
             var region = (window.rsConf && window.rsConf.moodle && window.rsConf.moodle.region) ? window.rsConf.moodle.region : 'eu';
 
             var showInContent = (window.rsConf && window.rsConf.moodle && window.rsConf.moodle.showInContent) ? window.rsConf.moodle.showInContent : '';
-            var editingMode = (window.rsConf && window.rsConf.moodle && window.rsConf.moodle.em) ? window.rsConf.moodle.em : 0;
+            var editingMode = (window.rsConf && window.rsConf.moodle && window.rsConf.moodle.em === '1') ? true : false;
+            var modeParam = (window.rsConf && window.rsConf.moodle && window.rsConf.moodle.mode !== '') ? '&mode=' + window.rsConf.moodle.mode : '';
+            var scriptVersion = (window.rsConf && window.rsConf.moodle && window.rsConf.moodle.latestVersion === '1') ? 'latest' : 'current';
 
 
-            var scriptSrc = 'https://cdn-%region%.readspeaker.com/script/%customerid%/webReaderForEducation/moodle/current/webReader.js',
-                scriptParams = '?pids=embhl' + docreaderParam;
+            var scriptSrc = 'https://cdn-%region%.readspeaker.com/script/%customerid%/webReaderForEducation/moodle/' + scriptVersion + '/webReader.js',
+                scriptParams = '?pids=embhl' + docreaderParam + modeParam;
             scriptSrc = scriptSrc.replace('%customerid%', customerid);
             scriptSrc = scriptSrc.replace('%region%', region);
 
@@ -52,7 +54,7 @@ YUI.add("moodle-block_readspeaker_embhl-ReadSpeaker", function(){
 
             var callback = function() {
                 ReadSpeaker.init();
-                if (showInContent !== "") {
+                if (showInContent) {
                     var rsButton = document.getElementById('readspeaker_button1'),
                     readArea = document.getElementById(showInContent);
                     // Remove the compact class

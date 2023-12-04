@@ -30,13 +30,13 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_heading(
         'header_config',
         get_string('header_config', 'block_readspeaker_embhl'),
-        get_string('header_config_description', 'block_readspeaker_embhl')
+        get_string('header_config_help', 'block_readspeaker_embhl')
     ));
 
     $settings->add(new admin_setting_configtext(
         'block_readspeaker_embhl/cid',
         get_string('customerid', 'block_readspeaker_embhl'),
-        get_string('customerid_description', 'block_readspeaker_embhl'),
+        get_string('customerid_help', 'block_readspeaker_embhl'),
         0,
         PARAM_INT
     ));
@@ -44,7 +44,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext(
         'block_readspeaker_embhl/readid',
         get_string('readid', 'block_readspeaker_embhl'),
-        get_string('readid_description', 'block_readspeaker_embhl'),
+        get_string('readid_help', 'block_readspeaker_embhl'),
         'region-main',
         PARAM_RAW
     ));
@@ -52,9 +52,10 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configselect(
         'block_readspeaker_embhl/lang',
         get_string('lang', 'block_readspeaker_embhl'),
-        get_string('lang_description', 'block_readspeaker_embhl'),
+        get_string('lang_help', 'block_readspeaker_embhl'),
         'en_us',
         array(
+            'af_za' => get_string('afrikaans', 'block_readspeaker_embhl'),
             'ar_ar' => get_string('arabic', 'block_readspeaker_embhl'),
             'eu_es' => get_string('basque', 'block_readspeaker_embhl'),
             'ca_es' => get_string('catalan', 'block_readspeaker_embhl'),
@@ -69,6 +70,7 @@ if ($ADMIN->fulltree) {
             'en_us' => get_string('english_american', 'block_readspeaker_embhl'),
             'en_au' => get_string('english_australian', 'block_readspeaker_embhl'),
             'en_in' => get_string('english_indian', 'block_readspeaker_embhl'),
+            'en_nz' => get_string('english_newzealand', 'block_readspeaker_embhl'),
             'en_sc' => get_string('english_scottish', 'block_readspeaker_embhl'),
             'en_za' => get_string('english_southafrican', 'block_readspeaker_embhl'),
             'en_uk' => get_string('english_brittish', 'block_readspeaker_embhl'),
@@ -86,9 +88,17 @@ if ($ADMIN->fulltree) {
             'zh_hk' => get_string('hong_kong_cantonese', 'block_readspeaker_embhl'),
             'hu_hu' => get_string('hungarian', 'block_readspeaker_embhl'),
             'is_is' => get_string('icelandic', 'block_readspeaker_embhl'),
+            'nr_za' => get_string('isindebele', 'block_readspeaker_embhl'),
+            'xh_za' => get_string('isixhosa', 'block_readspeaker_embhl'),
+            'zu_za' => get_string('isizulu', 'block_readspeaker_embhl'),
             'it_it' => get_string('italian', 'block_readspeaker_embhl'),
             'ja_jp' => get_string('japanese', 'block_readspeaker_embhl'),
             'ko_kr' => get_string('korean', 'block_readspeaker_embhl'),
+            'lv_lv' => get_string('latvian', 'block_readspeaker_embhl'),
+            'nso' => get_string('sepedi', 'block_readspeaker_embhl'),
+            'st_za' => get_string('sesotho', 'block_readspeaker_embhl'),
+            'tn_za' => get_string('setswana', 'block_readspeaker_embhl'),
+            'ss_za' => get_string('siswati', 'block_readspeaker_embhl'),
             'es_es' => get_string('spanish_castilian', 'block_readspeaker_embhl'),
             'es_us' => get_string('spanish_american', 'block_readspeaker_embhl'),
             'es_co' => get_string('spanish_columbian', 'block_readspeaker_embhl'),
@@ -103,16 +113,18 @@ if ($ADMIN->fulltree) {
             'sv_se' => get_string('swedish', 'block_readspeaker_embhl'),
             'sv_fi' => get_string('swedish_finnish', 'block_readspeaker_embhl'),
             'th_th' => get_string('thai', 'block_readspeaker_embhl'),
+            've_za' => get_string('Tshivenda', 'block_readspeaker_embhl'),
             'tr_tr' => get_string('turkish', 'block_readspeaker_embhl'),
             'uk_ua' => get_string('ukranian', 'block_readspeaker_embhl'),
-            'cy_cy' => get_string('welsh', 'block_readspeaker_embhl')
+            'cy_cy' => get_string('welsh', 'block_readspeaker_embhl'),
+            'ts_za' => get_string('xitsonga', 'block_readspeaker_embhl')
         )
     ));
 
     $settings->add(new admin_setting_configselect(
         'block_readspeaker_embhl/region',
         get_string('region', 'block_readspeaker_embhl'),
-        get_string('region_description', 'block_readspeaker_embhl'),
+        get_string('region_help', 'block_readspeaker_embhl'),
         'eu',
         array(
             'af' => get_string('africa', 'block_readspeaker_embhl'),
@@ -126,16 +138,10 @@ if ($ADMIN->fulltree) {
         )
     ));
 
-    $settings->add(new admin_setting_configtext(
-        'block_readspeaker_embhl/docreaderenabled',
-        get_string('docreader', 'block_readspeaker_embhl'),
-        get_string('docreader_description', 'block_readspeaker_embhl'), '')
-    );
-
     $settings->add(new admin_setting_configselect(
         'block_readspeaker_embhl/showincontent',
         get_string('showincontent', 'block_readspeaker_embhl'),
-        get_string('showincontent_description', 'block_readspeaker_embhl'),
+        get_string('showincontent_help', 'block_readspeaker_embhl'),
         '0',
         array(
                 '0' => get_string('showincontent_showinblock', 'block_readspeaker_embhl'),
@@ -143,10 +149,28 @@ if ($ADMIN->fulltree) {
             )
     ));
 
+    $settings->add(new admin_setting_configcheckbox(
+        'block_readspeaker_embhl/docreader',
+        get_string('docreader', 'block_readspeaker_embhl'),
+        get_string('docreader_help', 'block_readspeaker_embhl'), false)
+    );
+
+    $settings->add(new admin_setting_configcheckbox(
+        'block_readspeaker_embhl/disableinem',
+        get_string('disableinem', 'block_readspeaker_embhl'),
+        get_string('disableinem_help', 'block_readspeaker_embhl'), false)
+    );
+
+    $settings->add(new admin_setting_configcheckbox(
+        'block_readspeaker_embhl/latestscript',
+        get_string('latestscript', 'block_readspeaker_embhl'),
+        get_string('latestscript_help', 'block_readspeaker_embhl'), false)
+    );
+
     $settings->add(new admin_setting_configtext(
         'block_readspeaker_embhl/customparams',
         get_string('customparams', 'block_readspeaker_embhl'),
-        get_string('customparams_description', 'block_readspeaker_embhl'),
+        get_string('customparams_help', 'block_readspeaker_embhl'),
         '',
         PARAM_TEXT
     ));
