@@ -113,7 +113,7 @@ if ($ADMIN->fulltree) {
             'sv_se' => get_string('swedish', 'block_readspeaker_embhl'),
             'sv_fi' => get_string('swedish_finnish', 'block_readspeaker_embhl'),
             'th_th' => get_string('thai', 'block_readspeaker_embhl'),
-            've_za' => get_string('Tshivenda', 'block_readspeaker_embhl'),
+            've_za' => get_string('tshivenda', 'block_readspeaker_embhl'),
             'tr_tr' => get_string('turkish', 'block_readspeaker_embhl'),
             'uk_ua' => get_string('ukranian', 'block_readspeaker_embhl'),
             'cy_cy' => get_string('welsh', 'block_readspeaker_embhl'),
