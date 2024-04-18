@@ -37,7 +37,7 @@ require_once("$CFG->libdir/filelib.php");
 $current_stage = optional_param('stage', 'init', PARAM_ALPHA);
 if ($current_stage == 'fetch') {
     // Get the document to fetch.
-    $document_url = s(required_param('url', PARAM_URL));
+    $document_url = required_param('url', PARAM_URL);
 
     // Check that the request is made towards the Moodle server.
     if (parse_url($document_url, PHP_URL_HOST) != parse_url($CFG->wwwroot, PHP_URL_HOST)) {
