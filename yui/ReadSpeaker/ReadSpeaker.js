@@ -27,6 +27,73 @@ YUI.add("moodle-block_readspeaker_embhl-ReadSpeaker", function(){
     M.block_RS = M.block_RS || {};
     M.block_RS.ReadSpeaker = {
         init: function() {
+
+            // Re-activate the detachment feature after clicking on the Listen button, if detachment is enabled.
+            YUI().use('node', function(Y) {
+                var handleEvent = function(event) {
+                    var target = event.target;
+                    if (target.hasClass('close-drag-btn') && (event.type === 'click' || (event.type === 'keydown' && event.keyCode === 13))) {
+                        rsConf.ui.disableDetachment = true;
+            
+                        // Remove the rsdetached class.
+                        var dragdropElements = Y.all('.rsdetached');
+                        if (dragdropElements) {
+                            dragdropElements.each(function(el) {
+                                el.removeClass('rsdetached');
+                                el.setAttribute('style', '');
+                                el.setStyle('top', 'auto');
+                                el.setStyle('left', 'auto');
+                            });
+                        }
+            
+                        // Hide the rsbtn_detach_clone div.
+                        var detachCloneElement = Y.one('#rsbtn_detach_clone');
+                        if (detachCloneElement) {
+                            detachCloneElement.setStyle('display', 'none');
+                        }
+                    }
+                };
+            
+                // Attach event listeners for click and keydown.
+                Y.one(document).delegate('click', handleEvent, '.close-drag-btn');
+                Y.one(document).delegate('keydown', handleEvent, '.close-drag-btn');
+            });
+            
+
+            var readspeakerButton = Y.one('#readspeaker_button1');
+            if (readspeakerButton) {
+                readspeakerButton.on('click', function() {
+                    if (rspkr.features.detachment && rsConf.ui.disableDetachment) {
+                        var observer = new IntersectionObserver(function(entries) {
+                            entries.forEach(function(entry) {
+                                if (!entry.isIntersecting) {
+                                    // When readspeaker_button1 is not visible in the viewport.
+                                    rsConf.ui.disableDetachment = false;
+
+                                    var readspeakerButton = Y.one('#readspeaker_button1');
+                                    if (readspeakerButton) {
+                                        readspeakerButton.addClass('rsdetached');
+                                        readspeakerButton.setStyle('top', '300px');
+                                        readspeakerButton.setStyle('left', '700px');
+                                    }
+
+                                    var detachCloneElement = Y.one('#rsbtn_detach_clone');
+                                    if (detachCloneElement) {
+                                        detachCloneElement.setStyle('display', '');
+                                    }
+
+                                    // Stop observing after the first trigger.
+                                    observer.unobserve(entry.target);
+                                }
+                            });
+                        }, { threshold: [0] }); // 0: even a single pixel out of view will trigger the callback.
+                        if (readspeakerButton) {
+                            observer.observe(readspeakerButton.getDOMNode());
+                        }
+                    }
+                });
+            }
+
             if (!window.rsConf) window.rsConf = {};
 
             // Check params

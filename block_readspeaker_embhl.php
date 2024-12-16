@@ -23,6 +23,8 @@
  * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+#[AllowDynamicProperties]
+
 class block_readspeaker_embhl extends block_base {
 
     public function init() {
@@ -45,6 +47,9 @@ class block_readspeaker_embhl extends block_base {
         $this->plugin_custom_showincontent = get_config('block_readspeaker_embhl', 'showincontent');
 
         $this->plugin_mode = get_config('block_readspeaker_embhl', 'mode');
+
+        $this->plugin_statistics = get_config('block_readspeaker_embhl', 'statistics');
+        $this->plugin_custom_translation = get_config('block_readspeaker_embhl', 'translation');
     }
 
     public function specialization() {
@@ -102,12 +107,34 @@ class block_readspeaker_embhl extends block_base {
         // Check if user is in editing mode.
         $edit_mode = $this->page->user_is_editing();
 
+        // Create the statistics format.
+        $stats = urlencode($this->statistics_format());
+
+        // Check the translation source.
+        $translation = $this->plugin_custom_translation ? $this->plugin_config_language : '';
+
+        // Determine the region of our block.
+        $region = $this->instance->region;
+        // Define the detachDragbarMarkup based on the region.
+        $detachDragbarMarkup = '';
+        if (($region === 'side-pre'||$region === 'side-post') && $this->plugin_custom_showincontent === '0') { // 0 for 'show in block'.
+            $detachDragbarMarkup = '<div class="rsbtn_dragbar" tabindex="0" role="button"  aria-grabbed="false">' .
+                '<span class="rsbtn_btnlabel">webReader - use arrow keys to move player</span>' .
+                '<span class="rsicn rsicn-grippie" aria-hidden="true"></span>' .
+                '<span class="close-drag-btn" tabindex="0" data-rs-tooltip="." role="button" data-rslang="title/arialabel:dockplayer" style="position: absolute; right: 2px; top: -2px; cursor: pointer; font-size: 1.8em;">&times;</span>' .
+                '</div>';
+        }
+
         // HTML code for inline settings to webReader.
         $script_code = implode(PHP_EOL, [
             '<script type="text/javascript">',
             '   window.rsConf = {',
             '       general: {',
-            '           usePost: true',
+            '           usePost: true,',
+            '           translationSourceLang: "' . $translation . '"',
+            '       },',
+            '       ui: {',
+            '           detachDragbarMarkup: \'' . $detachDragbarMarkup . '\',',
             '       },',
             '       moodle: {',
             '           customerid: "' . $this->plugin_config_customerid . '",',
@@ -131,6 +158,7 @@ class block_readspeaker_embhl extends block_base {
         '.readspeaker.com/cgi-bin/rsent?customerid=' . $this->plugin_config_customerid .
         '&amp;lang=' . $this->plugin_config_language .
         '&amp;uilang=' . $uilang .
+        ($this->plugin_statistics ? '&amp;statparam=' . $stats : '') .
         '&amp;readid=' . $this->plugin_config_readid .
         '&amp;url=' . $encoded_url .
         $audiofile_name .
@@ -278,5 +306,65 @@ class block_readspeaker_embhl extends block_base {
             'boost'
         ];
         return in_array($theme, $theme_list);
+    }
+
+    /**
+     * Function to create the statistics format for webReader.
+     *
+     * @return string $final_format
+     */
+    private function statistics_format() {
+
+        global $PAGE;
+
+        // Retrieve all breadcrumb items.
+        $breadcrumbs = $PAGE->navbar->get_items();
+
+        // Initialize an array to store breadcrumb text.
+        $breadcrumb_texts = [];
+        $context = $PAGE->context;
+        
+        // Check if we are in a course context and the course ID is not 1 (site context).
+        if (($context->contextlevel == CONTEXT_COURSE || $context->contextlevel == CONTEXT_MODULE) && isset($COURSE) && $COURSE->id != 1) {
+            // Start from the third element (index 2) if in a course context.
+            $start_index = 2;
+        } else {
+            // Otherwise, start from the beginning.
+            $start_index = 0;
+        }
+
+        // Loop through each breadcrumb item, starting at the appropriate index.
+        foreach ($breadcrumbs as $index => $breadcrumb) {
+            // Skip the first two elements if in a course context.
+            if ($index < $start_index) {
+                continue;
+            }
+
+            // Get the text content of the breadcrumb.
+            $text = $breadcrumb->get_content();
+
+            // Add the text to the breadcrumb array.
+            $breadcrumb_texts[] = $text;
+        }
+
+        // Join all breadcrumb texts with a separator.
+        $breadcrumb_string = implode('/', $breadcrumb_texts);
+        $decoded_text = html_entity_decode($breadcrumb_string, ENT_QUOTES | ENT_HTML5);
+
+        $stats_name = preg_replace('/\s+/', '_', $decoded_text);
+
+        $host = $_SERVER['HTTP_HOST'];
+        $hostParts = explode('.', $host);
+
+        // Check if there are more than two parts (indicating a subdomain exists).
+        if (count($hostParts) > 2) {
+            $subdomain = $hostParts[0];
+        } else {
+            $subdomain = null;
+        }
+
+        $final_format = $subdomain. '/' . $stats_name;
+
+        return $final_format;
     }
 }

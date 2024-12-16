@@ -15,16 +15,25 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * ReadSpeakers webReader for Moodle block.
+ * Mobile support for Readspeakers webReader Moodle block
  *
  * @package    block_readspeaker_embhl
- * @copyright  2016 ReadSpeaker <info@readspeaker.com>
- * @author     Richard Risholm
- * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright  2024 ReadSpeaker <info@readspeaker.com>
+ * @author     Nikolina Milioni
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2024121601;  // YYYYMMDDHH (year, month, day, 24-hr time)
-$plugin->requires = 2015111600; // YYYYMMDDHH
-$plugin->component = 'block_readspeaker_embhl'; // Full name of the plugin (used for diagnostics)
+$addons = [
+    'block_readspeaker_embhl' => [
+        'handlers' => [
+            'readspeaker' => [
+                'delegate' => 'CoreBlockDelegate',
+                'method' => 'mobile_block_view',
+                'init' => 'rs_init'
+            ],
+        ],
+    ]
+];

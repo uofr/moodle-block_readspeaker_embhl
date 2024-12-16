@@ -91,6 +91,7 @@ $string['sepedi'] = 'Sepedi';
 $string['sesotho'] = 'Sesotho';
 $string['setswana'] = 'Setswana';
 $string['siswati'] = 'Siswati';
+$string['spanish_argentinian'] = 'Spanish (Argentinian)';
 $string['spanish_castilian'] = 'Spanish (Castilian)';
 $string['spanish_american'] = 'Spanish (American)';
 $string['spanish_columbian'] = 'Spanish (Columbian)';
@@ -169,3 +170,21 @@ $string['listen_titletext'] = "Listen to this page using ReadSpeaker";
 
 // Privacy text.
 $string['privacy:metadata'] = 'The ReadSpeaker block does not store any personal information and only displays the ReadSpeaker Listen button.';
+
+// Enable statistics.
+$string['statistics'] = 'Statistics: Enable page information';
+$string['stats_help'] = 'Check to display the page path instead of the page URL in statistics.';
+
+// Translation
+$string['translation'] = 'Translation language';
+$string['translation_help'] = 'Select the Page language or the Reading language to be used as the source language (from) for translation.';
+$string['translation_page'] = 'Page language';
+$string['translation_voice'] = 'Reading language';
+
+// Mobile plugin
+$string['mobileapp'] = "Enable mobile plugin";
+$string['mobileapp_help'] = "Check to enable the plugin in the Moodle app (also requires the feature to be turned on by ReadSpeaker).";
+
+// Mobile toolbar.
+$string['pixels'] = 'Mobile toolbar position';
+$string['pixels_help'] = 'Specify how many pixels from the bottom of the screen the mobile toolbar should be placed (example "130").';

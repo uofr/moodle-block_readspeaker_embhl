@@ -75,6 +75,7 @@ class block_readspeaker_embhl_edit_form extends block_edit_form {
             'st_za' => get_string('sesotho', 'block_readspeaker_embhl'),
             'tn_za' => get_string('setswana', 'block_readspeaker_embhl'),
             'ss_za' => get_string('siswati', 'block_readspeaker_embhl'),
+            'es_ar' => get_string('spanish_argentinian', 'block_readspeaker_embhl'),
             'es_es' => get_string('spanish_castilian', 'block_readspeaker_embhl'),
             'es_us' => get_string('spanish_american', 'block_readspeaker_embhl'),
             'es_co' => get_string('spanish_columbian', 'block_readspeaker_embhl'),

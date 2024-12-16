@@ -99,6 +99,7 @@ if ($ADMIN->fulltree) {
             'st_za' => get_string('sesotho', 'block_readspeaker_embhl'),
             'tn_za' => get_string('setswana', 'block_readspeaker_embhl'),
             'ss_za' => get_string('siswati', 'block_readspeaker_embhl'),
+            'es_ar' => get_string('spanish_argentinian', 'block_readspeaker_embhl'),
             'es_es' => get_string('spanish_castilian', 'block_readspeaker_embhl'),
             'es_us' => get_string('spanish_american', 'block_readspeaker_embhl'),
             'es_co' => get_string('spanish_columbian', 'block_readspeaker_embhl'),
@@ -122,6 +123,17 @@ if ($ADMIN->fulltree) {
     ));
 
     $settings->add(new admin_setting_configselect(
+        'block_readspeaker_embhl/translation',
+        get_string('translation', 'block_readspeaker_embhl'),
+        get_string('translation_help', 'block_readspeaker_embhl'),
+        '0',
+        array(
+                '0' => get_string('translation_page', 'block_readspeaker_embhl'),
+                '1' => get_string('translation_voice', 'block_readspeaker_embhl')
+            )
+    ));
+
+    $settings->add(new admin_setting_configselect(
         'block_readspeaker_embhl/region',
         get_string('region', 'block_readspeaker_embhl'),
         get_string('region_help', 'block_readspeaker_embhl'),
@@ -142,7 +154,7 @@ if ($ADMIN->fulltree) {
         'block_readspeaker_embhl/showincontent',
         get_string('showincontent', 'block_readspeaker_embhl'),
         get_string('showincontent_help', 'block_readspeaker_embhl'),
-        '0',
+        '1',
         array(
                 '0' => get_string('showincontent_showinblock', 'block_readspeaker_embhl'),
                 '1' => get_string('showincontent_showincontent', 'block_readspeaker_embhl')
@@ -173,5 +185,25 @@ if ($ADMIN->fulltree) {
         get_string('customparams_help', 'block_readspeaker_embhl'),
         '',
         PARAM_TEXT
+    ));
+
+    $settings->add(new admin_setting_configcheckbox(
+        'block_readspeaker_embhl/statistics',
+        get_string('statistics', 'block_readspeaker_embhl'),
+        get_string('stats_help', 'block_readspeaker_embhl'), false)
+    );
+
+    $settings->add(new admin_setting_configcheckbox(
+        'block_readspeaker_embhl/mobileapp',
+        get_string('mobileapp', 'block_readspeaker_embhl'),
+        get_string('mobileapp_help', 'block_readspeaker_embhl'), false),
+    );
+
+    $settings->add(new admin_setting_configtext(
+        'block_readspeaker_embhl/pixels',
+        get_string('pixels', 'block_readspeaker_embhl'),
+        get_string('pixels_help', 'block_readspeaker_embhl'),
+        '130',
+        PARAM_RAW
     ));
 }
