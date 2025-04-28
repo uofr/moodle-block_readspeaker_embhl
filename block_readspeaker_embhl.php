@@ -64,6 +64,7 @@ class block_readspeaker_embhl extends block_base {
                 $this->plugin_mode = $this->config->mode;
             }
         }
+		$this->plugin_config_language = current_language()=='fr_ca'?'fr_ca':get_config('block_readspeaker_embhl', 'lang');
     }
 
     public function get_content() {
